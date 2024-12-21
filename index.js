@@ -8,17 +8,19 @@ const addItem = (e) => {
     const newItem = itemInput.value;
 
     if (newItem === '') {
-        alert('Add an item to the list.');
+        alert('Please add an item to the list.');
         return;
     }
 
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(newItem));
     const button = createButton('remove-item btn-link text-red');
+    console.log(button);
     li.appendChild(button);
     itemList.appendChild(li);
-    console.log(button);
+
     console.log(li);
+
     itemInput.value = '';
 }
 
@@ -29,26 +31,31 @@ const createButton = (classes) => {
     button.appendChild(icon);
     console.log(icon);
     return button;
-};
+}
 
 const createIcon = (classes) => {
     const icon = document.createElement('i');
     icon.classList = classes;
     return icon;
-};
+}
 
-const removeItem = e => {
+const removeItems = (e) => {
     if (e.target.parentElement.classList.contains('remove-item')) {
-        e.target.parentElement.parentElement.remove();
+        if (confirm("Are you sure you want to remove this item?")) {
+            e.target.parentElement.parentElement.remove();
+        }
     }
 }
 
 const clearItems = () => {
-    while (itemList.firstChild) {
-        itemList.removeChild(itemList.firstChild);
+    if (confirm('Are you sure you want to remove items.')) {
+        while (itemList.firstChild) {
+            itemList.removeChild(itemList.firstChild);
+        }
     }
 }
 
+
 itemForm.addEventListener('submit', addItem);
-itemList.addEventListener('click', removeItem);
+itemList.addEventListener('click', removeItems);
 clearBtn.addEventListener('click', clearItems);
