@@ -8,20 +8,18 @@ const addItem = (e) => {
     const newItem = itemInput.value;
 
     if (newItem === '') {
-        alert('Please add an item to the list.');
+        alert('Please add an item to the list');
         return;
     }
 
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(newItem));
     const button = createButton('remove-item btn-link text-red');
-    console.log(button);
-    li.appendChild(button);
     itemList.appendChild(li);
-
-    console.log(li);
-
+    li.appendChild(button);
     itemInput.value = '';
+    console.log(button)
+    console.log(li);
 }
 
 const createButton = (classes) => {
@@ -29,11 +27,10 @@ const createButton = (classes) => {
     button.classList = classes;
     const icon = createIcon('fa-solid fa-xmark');
     button.appendChild(icon);
-    console.log(icon);
     return button;
 }
 
-const createIcon = (classes) => {
+const createIcon = classes => {
     const icon = document.createElement('i');
     icon.classList = classes;
     return icon;
@@ -41,20 +38,17 @@ const createIcon = (classes) => {
 
 const removeItems = (e) => {
     if (e.target.parentElement.classList.contains('remove-item')) {
-        if (confirm("Are you sure you want to remove this item?")) {
+        if (confirm('Are you sure you want to delete the item?')) {
             e.target.parentElement.parentElement.remove();
         }
     }
 }
 
 const clearItems = () => {
-    if (confirm('Are you sure you want to remove items.')) {
-        while (itemList.firstChild) {
-            itemList.removeChild(itemList.firstChild);
-        }
+    while (itemList.firstChild) {
+        itemList.removeChild(itemList.firstChild);
     }
 }
-
 
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItems);
