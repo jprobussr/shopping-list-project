@@ -2,6 +2,8 @@ const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
+const itemFilter = document.getElementById('filter');
+
 
 const addItem = (e) => {
     e.preventDefault();
@@ -15,11 +17,13 @@ const addItem = (e) => {
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(newItem));
     const button = createButton('remove-item btn-link text-red');
-    itemList.appendChild(li);
     li.appendChild(button);
+    itemList.appendChild(li);
+
+    
+    resetUI();
     itemInput.value = '';
-    console.log(button)
-    console.log(li);
+   
 }
 
 const createButton = (classes) => {
@@ -40,6 +44,8 @@ const removeItems = (e) => {
     if (e.target.parentElement.classList.contains('remove-item')) {
         if (confirm('Are you sure you want to delete the item?')) {
             e.target.parentElement.parentElement.remove();
+
+            resetUI();
         }
     }
 }
@@ -48,8 +54,23 @@ const clearItems = () => {
     while (itemList.firstChild) {
         itemList.removeChild(itemList.firstChild);
     }
+
+    resetUI();
+}
+
+const resetUI = () => {
+    const items = itemList.querySelectorAll('li');
+    if (items.length === 0) {
+        clearBtn.style.display = 'none';
+        itemFilter.style.display = 'none';
+    } else {
+        clearBtn.style.display = 'block';
+        itemFilter.style.display = 'block';
+    }
 }
 
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItems);
 clearBtn.addEventListener('click', clearItems);
+
+resetUI();
