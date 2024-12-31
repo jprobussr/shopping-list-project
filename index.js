@@ -40,22 +40,61 @@ const createIcon = classes => {
     return icon;
 }
 
-const removeItems = (e) => {
-    if (e.target.parentElement.classList.contains('remove-item')) {
-        if (confirm('Are you sure you want to delete the item?')) {
-            e.target.parentElement.parentElement.remove();
+// const removeItems = (e) => {
+//     if (e.target.parentElement.classList.contains('remove-item')) {
+//         if (confirm('Are you sure you want to delete the item?')) {
+//             e.target.parentElement.parentElement.remove();
 
-            resetUI();
+//             resetUI();
+//         }
+//     }
+// }
+
+const removeItems = e => {
+    if (e.target.parentElement.classList.contains('remove-item')) {
+        if (confirm('Are you sure you want to remove the item from the list?')) {
+            e.target.parentElement.parentElement.remove();
         }
+
+        resetUI();
     }
 }
 
-const clearItems = () => {
-    while (itemList.firstChild) {
-        itemList.removeChild(itemList.firstChild);
-    }
 
-    resetUI();
+// const clearItems = () => {
+//     if (confirm('Are you sure you want to remove items from the list?')) {
+//         while (itemList.firstChild) {
+//             itemList.removeChild(itemList.firstChild);
+//         }
+
+//         resetUI();
+//     }
+// }
+
+const clearItems = () => {
+    if (confirm('Are you sure you want to remove the items from the list?')) {
+        while (itemList.firstChild) {
+            itemList.removeChild(itemList.firstChild);
+        }
+
+        resetUI();
+    }
+}
+
+const filterItems = (e) => {
+    const items = itemList.querySelectorAll('li');
+    const text = e.target.value.toLowerCase();
+
+    items.forEach(item => {
+        const itemName = item.firstChild.textContent.toLowerCase();
+
+        if (itemName.indexOf(text) != -1) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+
+    });
 }
 
 const resetUI = () => {
@@ -72,5 +111,6 @@ const resetUI = () => {
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItems);
 clearBtn.addEventListener('click', clearItems);
+itemFilter.addEventListener('input', filterItems);
 
 resetUI();
